@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load cart %}
+{% load custom_filter %}
+
+
+<!-- body -->
+
+<div class="container-fluid">
+	<div class="row">
+		<!-- filter -->
+		<div id="mySidepanel" class="sidepanel">
+			{% for category in categories %}
+				<a href="/?category={{category.id}}" onclick="toggleNav()">{{category.name}}</a>
+			{% endfor %}
+		</div>
+
+		<button class="openbtn" onclick="toggleNav()">☰ Toggle Categories</button>
+		
+		<!-- all products -->
+		<div id='products' class="col-lg-9 mx-auto">
+			<div class="row mx-auto">
+				{% for product in products %}
+				<div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
+					<img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+					<div class="card-body">
+						<p class="card-title">{{product.name}}</p>
+						<p class="card-text"><b>{{product.price|currency}}</b></p>
+					</div>
+
+					<div class="card-footer p-0 no-gutters">
+
+						{% if product|is_in_cart:request.session.cart %}
+						<div class="row no-gutters">
+							<form action="/#{{product.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input hidden type="text" name='remove' value='True'>
+								<input type="submit" value=" - " class="btn btn-block btn-danger border-right">
+							</form>
+							<div class="text-center col btn btn-custom">{{product|cart_quantity:request.session.cart}} in Cart</div>
+							<form action="/#{{product.id}}" class="col-2 " method="post">
+								{% csrf_token %}
+								<input hidden type="text" name='product' value='{{product.id}}'>
+								<input type="submit" value=" + " class="btn btn-block btn-success border-left">
+							</form>
+						</div>
+						{% else %}
+						<form action="/#{{product.id}}" method="POST" class="btn-block">
+							{% csrf_token %}
+							<input hidden type="text" name='product' value='{{product.id}}'>
+							<input type="submit" class="float-right btn btn-custom form-control"
+								value="Add To Cart">
+						</form>
+						{% endif %}
+
+					</div>
+
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!--Pagination-->
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center custom-pagination">
+	  {% if products.has_previous %}
+		<li class="page-item">
+		  <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+		</li>
+	  {% else %}
+		<li class="page-item disabled">
+		  <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Previous</a>
+		</li>
+	  {% endif %}
+	  {% for i in products.paginator.page_range %}
+		{% if products.number == i %}
+		  <li class="page-item active" aria-current="page">
+			<span class="page-link">
+			  {{ i }}
+			  <span class="sr-only">(current)</span>
+			</span>
+		  </li>
+		{% else %}
+		  <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+		{% endif %}
+	  {% endfor %}
+	  {% if products.has_next %}
+		<li class="page-item">
+		  <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
+		</li>
+	  {% else %}
+		<li class="page-item disabled">
+		  <a class="page-link" href="#" tabindex="-1" aria-disabled="True">Next</a>
+		</li>
+	  {% endif %}
+	</ul>
+  </nav>
+
+
+{% endblock %}

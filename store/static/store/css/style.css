@@ -1,0 +1,87 @@
+
+.mainNav{
+    background-color: #1c2331;
+}
+.one-edge-shadow {
+            box-shadow: 0 8px 2px -5px rgb(246, 245, 245);
+}
+.display-8{
+    font-weight: 200;
+    font-size: 30px;
+    font-colour: $teal-200;
+}
+
+
+/*Side panel*/
+.sidepanel  {
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    height: 500px;
+    top: 0;
+    left: 0;
+    background-color: #1c2331;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 140px;
+}
+
+.sidepanel a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 15px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidepanel a:hover {
+    color: #fdfdfd;
+}
+
+.openbtn {
+    position: fixed;
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #1c2331;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    z-index: 1;
+}
+
+.openbtn:hover {
+    background-color:#444;
+}
+
+.cart-count {
+border: 2px solid white; /* Adjust border thickness as needed */
+border-radius: 30%; /* Creates a rounded border */
+padding: 0.25px 4px; /* Adjust padding for spacing inside the square */
+}
+
+.btn-custom {
+background-color: #1c2331; /* Dark blue color */
+color: white; /* Text color */
+border-color: #1c2331; /* Border color */
+}
+
+.btn-custom:hover {
+    background-color: #09031e; /* Darker blue color on hover */
+    border-color: #09031e; /* Darker border color on hover */
+}
+
+/* Pagination */
+.custom-pagination .page-link {
+    background-color: #1c2331;
+    color: white; /* Text color for pagination links */
+}
+
+.custom-pagination .page-item.active .page-link {
+    background-color: white; /* Background color for active page */
+    color: #0c0414; /* Text color for active page */
+}
+
+.custom-pagination .page-item.disabled .page-link {
+    color: gray; /* Text color for disabled page */
+}
