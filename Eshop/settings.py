@@ -11,10 +11,22 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+import environ
+
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
+
+# env = environ.Env(
+#     # set casting, default value
+#     DEBUG=(bool, False)
+# )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Take environment variables from .env file
+# environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -23,7 +35,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '-95t%=#4o3@l-(-%ok9*h%n3!0(sdchjn%+_$5#umaj-!3bg*7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['.vercel.app', 'now.sh', '127.0.0.1', 'localhost']
 
@@ -37,6 +49,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Third party
+    'cloudinary_storage', 
+    'cloudinary',
 
     # Local
     'store'
@@ -87,6 +103,17 @@ DATABASES = {
     }
 }
 
+# DATABASES = { 
+#     'default': { 
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+#         'NAME': env('DB_NAME'),
+#         'USER': env('DB_USER'),
+#         'PASSWORD': env('DB_PASSWORD'), 
+#         'HOST': env('DB_HOST'), 
+#         'PORT': env('DB_PORT'), 
+#         } 
+#     }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -130,3 +157,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles_build', 'static')
 MEDIA_URL = "/image/download/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# Cloudinary storage for media files
+
+CLOUDINARY_STORAGE = {
+            'CLOUD_NAME': 'dria4xmog',
+            'API_KEY': '248828195238815',
+            'API_SECRET': 'q6-BLNZ6BkkjBR96-VJYJWqsFE0',
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
